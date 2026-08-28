@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inst-splitter"
+version = "1.0.0"
+description = "5-Model Heterogeneous Ensemble AI Instrumental & Complementary Vocals Splitter"
+readme = "README.md"
+authors = [
+    { name = "Mokee04", email = "mokee04@users.noreply.github.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = [
+    "audio-separation",
+    "vocal-remover",
+    "instrumental-extractor",
+    "roformer",
+    "demucs",
+    "ensemble",
+    "cover-songs",
+    "mr-generator",
+    "dsp",
+    "pitch-shift"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Multimedia :: Sound/Audio :: Conversion",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "numpy>=1.23.0",
+    "scipy>=1.10.0",
+    "soundfile>=0.12.0",
+    "pyrubberband>=0.3.0",
+    "pyyaml>=6.0",
+    "audio-separator>=0.20.0",
+    "audioread>=3.0.0",
+    "onnxruntime>=1.15.0",
+    "torch>=2.0.0",
+    "librosa>=0.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Mokee04/inst-splitter"
+Repository = "https://github.com/Mokee04/inst-splitter.git"
+Issues = "https://github.com/Mokee04/inst-splitter/issues"
+
+[project.scripts]
+inst-split = "inst_splitter.cli:main_single"
+inst-splitter = "inst_splitter.cli:main_single"
+inst-splitter-batch = "inst_splitter.cli:main_batch"
+make-mr = "inst_splitter.cli:main_single"
+make-mr-batch = "inst_splitter.cli:main_batch"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["inst_splitter*", "mr_builder*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

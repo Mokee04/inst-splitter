@@ -1,0 +1,97 @@
+# MR Making v3 Global Configuration (5-Model Heterogeneous Ensemble)
+
+models:
+  bleedless:
+    name: "Bleedless RoFormer"
+    architecture: melband_roformer
+    model: "mel_band_roformer_instrumental_fv7z_gabox.ckpt"
+    family: "roformer"
+    weight: 1.0
+    carrier: false
+
+  balanced:
+    name: "Resurrection Balanced"
+    architecture: bs_roformer
+    model: "bs_roformer_instrumental_resurrection_unwa.ckpt"
+    family: "roformer"
+    weight: 1.0
+    carrier: false
+
+  fullness:
+    name: "Fullness Carrier (v1e+)"
+    architecture: melband_roformer
+    model: "melband_roformer_inst_v1e_plus.ckpt"
+    family: "roformer"
+    weight: 0.8
+    carrier: true
+
+  demucs_ft:
+    name: "HTDemucs FT"
+    architecture: htdemucs
+    model: "htdemucs_ft.yaml"
+    family: "demucs"
+    weight: 0.6
+    carrier: false
+
+  demucs_extra:
+    name: "Demucs MDX Extra"
+    architecture: demucs
+    model: "htdemucs.yaml"
+    family: "demucs"
+    weight: 0.5
+    carrier: false
+
+ensemble:
+  removal_threshold: 0.45
+  soft_temperature: 0.10
+  low_quantile: 0.25
+  silence_threshold_db: -70.0
+
+  roformer:
+    ab_consensus_bonus: 0.15
+
+  family:
+    architecture_disagreement_penalty: 0.5
+
+  attenuation:
+    frequency_limits:
+      sub:
+        max_frequency: 120.0
+        max_attenuation_db: 3.0
+      low:
+        max_frequency: 500.0
+        max_attenuation_db: 5.0
+      vocal:
+        max_frequency: 5000.0
+        max_attenuation_db: 10.0
+      high:
+        max_frequency: 10000.0
+        max_attenuation_db: 6.0
+      air:
+        max_attenuation_db: 4.0
+
+  stft:
+    n_fft: 4096
+    hop_length: 1024
+    window: "hann"
+
+  smoothing:
+    median_size: 3
+    attack_ms: 40.0
+    release_ms: 100.0
+    frequency_bins: 3
+
+transpose:
+  engine: "rubberband"
+  rbargs:
+    formant: false
+    pitch_hq: true
+
+output:
+  sample_rate: 44100
+  bit_depth: 24
+  peak_ceiling_db: -1.0
+
+cache:
+  enabled: true
+  dir: ".cache"
